@@ -1,0 +1,795 @@
+Good Morning All
+
+Welcome to powershell script session 
+
+Will start session by 9.30 AM IST
+
+##############################
+Agenda
+
+About Powershell
+
+cmdlet
+
+Alias
+
+Script
+------
+	1.variables
+	2.Operators
+	3.Conditional statements
+	4.Looping statement
+	5.File/Directory Manipulation
+	6.Array
+	7.Hash
+	8.Function
+	9.Regx
+	10.Class-Object-Method
+--------------------------------------------------------------------------------------
+
+
+cmdlets
+-------
+- lightweight command - name--> verb-noun 
+
+ls   -> command
+vs
+Get-ChildItem  --> cmdlet
+
+ps -> command
+vs
+Get-Process -> cmdlet
+
+date -> binaries  date.exe
+vs
+get-date -> cmdlet
+
+cmdlet + command
+
+Case - insensitive
+
+1.system Management
+ Winx cmdlets                    Linux bash commands
+Get-Process    			vs   ps
+stop-Process   
+
+start-service  			vs systemctl start service
+
+stop-service  			vs "   stop   "
+
+get-service   			vs  " status "
+
+set-service
+
+
+2. Filesystem
+
+Get-ChildItem         vs ls
+
+set-location           vs cd
+
+copy-item              vs  cp
+
+new-item 
+
+3. package management
+
+find-PackageProvider
+get-packageprovider
+Install-packageprovider
+
+get-packagesource
+Install-package
+Register-packagesource
+
+4. User management
+5. Windows Update
+6. Disk management
+7. Network
+
+==========================================================================
+verb-noun
+
+shell                 vs   powershell
+
+bash/sh				 cmd + cmdlet
+command--> text			         |---> object
+
+
+cmd - record based --> objects
+
+
+Verb-Noun | Get-Member   ===> Analyzing a cmdlet
+
+==============================================================
+$objects= Get-classname
+$object.method1()
+$object.method2()
+==============================================================
+
+get-alias ps
+set-alias Get-Process ps1
+
+
+Powershell  verb
+=---------------
+
+Get
+set
+start
+stop
+out ---> (mostly used in pipe)
+new  # New-Item -path "D:L\Demo" -ItemType Directory
+
+get-verb # list of all verbs
+
+-------------------------------------------------------------------------------
+
+Get-command   
+Get-command | out-host -paging   ( page view)
+
+Get-Help <cmdlet>   # man cmd Linux   # docs
+
+# earlier version
+Get-Help <cmdlet> -examples
+
+Get-Help <cmdlet> -details  # docs+ more examples
+
+#now
+
+Get-Help <cmdlet> -online
+
+
+command -parameter        -parameter  arg1 arg2
+|             |              |
+cmdletname   switch param    parameter with arg
+
+
+Other shell (bash)
+-------------------
+
+date             --> cmd only
+echo "Hello"     --> cmd with arg
+echo "Today: `date +D`"     ----> cmd with cmd   $()
+
+powershell
+-----------
+`n  newline
+`t   tab
+
+
+cmd with cmd  $()  (or) ()
+
+
+
+
+cmdlet1|cmd2 |cmdlet3
+
+
+cmdlet | format-list
+cmdlet | fl
+cmdlet | out-host      
+cmdlet | oh
+cmdlet | format-table
+cmdlet | ft
+cmdlet | where-object{script}
+
+
+Task1
+------
+Q1. Display working version of powershell
+
+	# (get-host).version.major 
+
+      # -single line comment
+
+Q2. How to get list of all available cmdlets
+	
+	# get-command
+
+Q3. How to read help docs read-host cmdlet
+	
+	# get-help read-host
+
+Q4. How to get list of all alias
+	
+	# get-alias
+
+Q5. How to display list of running notepad process
+
+	# get-process notepad
+
+Q6. How to check alias echo,ls,ps
+
+	# get-alias echo,ls,ps
+
+Q7. Display message "Welcome" using write-host, write-output, echo
+
+	<# write-host "Welcome"
+	   write-out "Welcome"
+	   echo "Welcome"
+	#>
+
+
+   <#......
+     .....Multi-line comment
+      ....
+    #> 
+
+------------------------------------------------------------------------------------
+
+
+ExecutionPolicy
+---------------
+4 Policies
+----------
+ 1. Restricted    -> default
+ 2. AllSigned
+ 3. RemoteSigned
+ 4. Unrestricted
+
+Get-ExecutionPolicy   
+RemoteSigned
+
+Set-ExecutionPolicy Unrestricted   (run as Administrator)
+Unrestricted
+
+bypass --> -executionpolicy bypass
+
+----------------------------------------------------------------------------------
+
+Script
+------
+Variable- hold data ( value/command/command-result/cmdlet/cmdlet-result)
+
+Syntax:-
+------
+$variable = value
+
+$var=100   ---> $var  |  100  | 0x123
+
+$var = $(cmd)  (or) $var = cmd
+
+$var = $(cmdlet) (or) $var=cmdlet
+
+----------------------------------------------------------------------------------
+(base) PS C:\Users\theeba> $v=Get-Date
+(base) PS C:\Users\theeba> $v
+
+03 March 2025 11:26:05
+
+
+(base) PS C:\Users\theeba> echo "Today: $v"
+Today: 03/03/2025 11:26:05
+(base) PS C:\Users\theeba>
+(base) PS C:\Users\theeba> $v=(get-date)
+(base) PS C:\Users\theeba> $v
+
+03 March 2025 11:27:14
+
+
+(base) PS C:\Users\theeba> echo "Today:$v"
+Today:03/03/2025 11:27:14
+(base) PS C:\Users\theeba>
+(base) PS C:\Users\theeba> $v=$(get-date)
+(base) PS C:\Users\theeba> $v
+
+03 March 2025 11:28:01
+
+
+(base) PS C:\Users\theeba> echo "Today : $v"
+Today : 03/03/2025 11:28:01
+(base) PS C:\Users\theeba>
+(base) PS C:\Users\theeba> get-date -Uformat %D
+03-03-25
+(base) PS C:\Users\theeba> $d=get-date -UFormat %D
+(base) PS C:\Users\theeba> echo "Today : $d"
+Today : 03-03-25
+(base) PS C:\Users\theeba> echo "Today : get-date -UFormat %D"
+Today : get-date -UFormat %D
+(base) PS C:\Users\theeba> echo "Today : (get-date -UFormat %D)"
+Today : (get-date -UFormat %D)
+(base) PS C:\Users\theeba> echo "Today : $(get-date -UFormat %D)"
+Today : 03-03-25
+(base) PS C:\Users\theeba> # echo "Today: `date +%D`"  - Shell script
+
+----------------------------------------------------------------------------------------
+Task2
+-----
+
+Write a powershell script
+
+$variable= value
+
+A . using write-host (or) echo , display following details
+
+login name
+powershell version
+current working directory
+date(mm/dd/yyyy)
+
+B. using write-out display details
+
+hostname
+total no.running process  
+
+-----------------------------------------------------------------------------------------
+
+changing Policy
+-------------
+Start-Process powershell -verb runas
+|
+Set-ExecutionPolicy <Policy>
+
+-------------------------------------------
+
+way1:  Without changing policy
+-----
+
+powershell -executionpolicy bypass -file <filelocation>
+
+
+way2: without changing policy as adminstrator
+-----
+
+start-process powershell -executionpolicy bypass -File 
+
+---------------------------------------------------------------------------
+
+
+______________________________________________________________________________________
+
+
+
+keyboard ------------------------Script ------------------- Monitor
+         read-host                       Write-host
+                                         Write-output
+					 echo
+
+Syntax:-
+
+$var= read-host "Prompt"
+      --------   ------
+          |       |
+      <STDIN>     <STDOUT>
+
+|---------$var is of String
+
+
+$variable.getType()     # determine type of value stored in var
+
+
+(base) PS C:\Users\Theeba\PSScripts> $variable=read-host "Enter text"
+Enter text: 12
+(base) PS C:\Users\Theeba\PSScripts> $variable
+12
+(base) PS C:\Users\Theeba\PSScripts> $variable.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     String                                   System.Object
+
+
+(base) PS C:\Users\Theeba\PSScripts> $v=12
+(base) PS C:\Users\Theeba\PSScripts> $v.getType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Int32                                    System.ValueType
+
+
+(base) PS C:\Users\Theeba\PSScripts> $cost=12122.222
+(base) PS C:\Users\Theeba\PSScripts> $v.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Int32                                    System.ValueType
+
+
+(base) PS C:\Users\Theeba\PSScripts> $cost.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Double                                   System.ValueType
+
+
+---------------------------------------------------------
+
+$v="45"  ----> string
+
+(or)
+
+$v=[String] 45
+
+------------------------------------------
+Syntax:-
+
+$variable = [Data-type] Value
+
+$v= [int] "45"   
+$v= [int] 123233.22
+
+$v= [Double] "2322.1212"
+$v= [Double] 22
+
+
+=========================================================================
+(base) PS C:\Users\Theeba\PSScripts> $v="45"
+(base) PS C:\Users\Theeba\PSScripts> $v.getType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     String                                   System.Object
+
+
+(base) PS C:\Users\Theeba\PSScripts> $v=[int] "45"
+(base) PS C:\Users\Theeba\PSScripts> $v.getType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Int32                                    System.ValueType
+
+
+(base) PS C:\Users\Theeba\PSScripts> $v=[Double] "455.222"
+(base) PS C:\Users\Theeba\PSScripts> $v.getType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Double                                   System.ValueType
+
+
+(base) PS C:\Users\Theeba\PSScripts> $v=[int] 32322.212
+(base) PS C:\Users\Theeba\PSScripts> $v.getType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Int32                                    System.ValueType
+=========================================================================
+
+Task 3:
+--------
+Write a powershell script
+
+read N value - int type
+
+read M value - double type
+
+read X value - String Type
+
+Display input Value and its Data-Type
+
+
+Task 4 :
+--------
+Modify Task2 with single Write-host
+
+ex:
+write-host "Welcome
+$(uname)
+$(pwd)
+"
+----------------------------------------------------------------------------------------
+
+Enter a command
+uname      
+.....
+Get-Date
+....
+
+
+& Invoke operator--> cmdlet inside script file
+                 ---> executing script file inside another script file
+
+
+-------------------------------------------------------------------------------------
+
+
+UDV - by default localscope
+
+all Shell Variable --- by default scope
+
+-------------------------------------------
+
+Global/env
+
+$PSHOME/profile.ps1
+open as administrator 
+ex: 
+$port=5000
+
+save and exit
+
+Open a new terminal/ session
+
+test=> echo $port
+
+______________________________________________________________
+
+
+Arithmetic -> + - * / %
+
+(input types : int/ double )---> (int/Double)
+
+String
+------
++ -----> "string1" + "String2" ---> string
+
+[int]"40"+[int]"60"---> 100
+
+[int]"40"+[double]"60" -->Double 
+
+
+Relational Operator
+-------------------
+
+-eq  -ne  -lt  -gt  -le  -ge  ======> boolean(True/False)
+--------
+|
+String
+
+get-childitem  is same as Get-ChildItem  
+
+-ceq
+
+
+-validation/ Testing
+
+
+if statement
+------------
+
+I) If
+II) IF..else
+III) If..elseif
+
+
+Syntax:--
+-------
+
+if (condition){
+	True only
+}
+
+Syntax:-
+
+if( condition){
+	True only
+}
+else{
+	False block
+}
+
+Logical Operator
+-----------------
+
+Logical and or not
+-test more than 1 condition
+
+Logical and  && and
+--------------------
+-and ==> in PS
+
+Logical or || or
+-----------------
+-or ==> In PS
+Logical not !
+--------------
+-not ==> In PS
+
+
+Logical and
+-----------
+condition1  condition2    Result
+True		True	TRue
+True            False    False
+False		True     False
+False		False    FAlse
+
+LOgical Or
+------------
+condition1  condition2    Result
+True		True	TRue
+True            False    TRue
+False		True     True
+False		False    FAlse
+
+Logical not 
+-------------
+
+$var="sh"  $var="bash"
+
+
+Task8:
+-----
+
+Write a powershell script
+
+read a login name from <STDIN>   read-host "Enter login name"
+         |
+read a shell name from <STDIN>   read-host "Enter shell name"
+
+sh ( or) bash (or) ksh --------> match
+                                 |--display login name and shellname
+
+
+TAsk9:
+----
+read a hostname from <STDIN>
+check hostname is Oracle
+		|
+		read a port number from <STDIN>
+		Check port no 501-599
+				----
+				 -> Hostname
+				 -> PortNumber
+
+
+
+III) If..elseif
+
+syntax:-
+
+if(condition1){
+	true block1
+}
+elseif(condition2){
+	true block2
+}
+elseif(Condition3){
+	true block3
+}..
+..
+else{
+	false block
+}
+
+
+-------------------------------------------------------------------------
+
+syntax:-
+
+switch(condition){
+<condition> {codeblock}
+<condition> {codbelock}
+...
+}
+
+---------------------------------------------------
+task
+====
+Write a powershell script
+
+Initialize a pinvar $pin=1234
+
+read a pin no from <stdin>
+
+compare pin no from existing pin
+  |-----------pin matched
+  |----------pin not matched.   	
+====================================================================
+
+Conditional statements - checks condition only once
+
+Looping statements
+|-----1. conditional style looping - True/Fase ---> for;while
+|-----2. Collection style Looping - more than 1 value - Array /Hash/ cmdlet result      
+								--   foreach
+
+
+syntax:-
+
+for(Initialization; Condition;Increment/Decrement){
+	codeblock
+}
+
+
+Initialization
+while(condition){
+	code
+	Increment/Decrement
+}
+
+do{
+......
+}while(condition)
+
+-------------------------------------------------------------------------------
+
+foreach($var in <Array>/HASH/CMDLET result){
+	...
+}
+
+break- looping statement- exit from loop
+continue - "     "      - skips the current iteration & continue with next iteration
+
+
+####################################################################################
+
+
+task
+====
+Write a powershell script
+
+Initialize a pinvar $pin=1234
+
+read a pin no from <stdin>
+
+compare pin no from existing pin
+  |-----------pin matched at Attempt :1 2 3 
+
+  |----------pin not matched.   
+
+Max Pin limit as 3
+------------------
+|
+|------------Pin is Blocked.
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
