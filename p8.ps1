@@ -1,26 +1,31 @@
+
 <#
-TAsk9:
-----
-read a hostname from <STDIN>
-check hostname is Oracle
-		|
-		read a port number from <STDIN>
-		Check port no 501-599
-				----
-				 -> Hostname
-				 -> PortNumber
+Q3. File: Dept.txt
+    --------------
+	admin
+	sales
+	Hr
+	Prod
+	QA
+	CRM
+	DBA
+   ----------------
+
+A. Write a powershell script - using file handling , read above dept.txt
+ ignore following departments -- sales, QA, HR
+ display remaining department names to <STDOUT>
+
+B.  ignore following departments -- sales, QA, HR
+ write remaining department names to <NEW FILE>
 #>
 
-$h= read-host "Enter a hostname"
-if($h -eq "oracle"){
-	[int]$po= read-host "Enter the Port Number"
-	if($po -gt 500 -and $po -lt 600){
-		write-host "Hostname : $h"
-		write-host "Port Number : $po"
+
+foreach( $v in get-content "C:\Users\Theeba\PSScripts\day2\dept.txt"){
+	if( $v -eq "sales" -or $v -eq "QA" -or $v -eq "HR"){
+		continue
 	}
 	else{
-		write-host "Invalid Port Number"
+		echo $v
 	}
-}else{
-	write-host "Invalid Hostname"
+
 }

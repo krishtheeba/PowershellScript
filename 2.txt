@@ -1,0 +1,869 @@
+
+-contains 
+-notcontains
+
+
+syntax:-
+
+collection -contains <inputdata>
+
+(base) PS C:\Users\theeba\PSScripts\day2> "p1.log","p2.log","p3.log" -contains "p2.log"
+True
+(base) PS C:\Users\theeba\PSScripts\day2> "p1.log","p2.log","p3.log" -contains "tt.log"
+False
+(base) PS C:\Users\theeba\PSScripts\day2> "p1.log","p2.log","p3.log" -notcontains "tt.log"
+True
+(base) PS C:\Users\theeba\PSScripts\day2>
+(base) PS C:\Users\theeba\PSScripts\day2> if( "p1.log","p2.log","p3.log" -contains "tt.log"){
+>> echo "File exist"
+>> }
+(base) PS C:\Users\theeba\PSScripts\day2> if( "p1.log","p2.log","p3.log" -contains "tt.log"){
+>> echo "File exist"
+>> }else{
+>> echo "File Not Exist"}
+File Not Exist
+(base) PS C:\Users\theeba\PSScripts\day2>
+
+
+
+
+-in -notin
+
+<input> -in collection
+<iput> -notin collection
+
+
+"root:x:bin:bash" --> string
+
+"root:x:bin:bash".split(":")   
+root
+x
+bin
+bash
+
+$variable=value
+
+cmdlet
+------
+
+set-variable --> $var=value
+
+get-variable
+
+clear-variable --> clears variable value
+
+remove-variable -> delete
+
+
+cmd-let|where-object { $_ -eq ..}
+
+Format-list *
+Format-table -property ..
+
+sort-object
+|-------------default 0-9  A-Z
+|----  -decending  Z-A 9-0
+
+-----------------------------------------------------------------------------------
+
+-like
+-nutlike 
+
+Syntax:-
+
+InputString -like <Wildcardcharacter Based pattern>
+
+* more than 1 character
+? match single character
+
+===================================================================================
+
+(base) PS C:\Users\theeba\PSScripts\day2> 1 -in 1,2,3
+True
+(base) PS C:\Users\theeba\PSScripts\day2> "p1.log" -notin "p1.log","p2.log"
+False
+(base) PS C:\Users\theeba\PSScripts\day2> "root:x:bin:bash".split(":")
+root
+x
+bin
+bash
+(base) PS C:\Users\theeba\PSScripts\day2> "root:x:bin:bash".split(":").length
+4
+(base) PS C:\Users\theeba\PSScripts\day2>
+(base) PS C:\Users\theeba\PSScripts\day2> $v1,$v2,$v3,$v4="root:x:bin:bash".split(":")  #multiple initialization
+(base) PS C:\Users\theeba\PSScripts\day2> $v1
+root
+(base) PS C:\Users\theeba\PSScripts\day2> $v2
+x
+(base) PS C:\Users\theeba\PSScripts\day2> $v3
+bin
+(base) PS C:\Users\theeba\PSScripts\day2> $v4
+bash
+(base) PS C:\Users\theeba\PSScripts\day2> $v1,$v2=10,20,30
+(base) PS C:\Users\theeba\PSScripts\day2> $v1
+10
+(base) PS C:\Users\theeba\PSScripts\day2> $v2
+20
+30
+(base) PS C:\Users\theeba\PSScripts\day2> foreach($var in $v2){
+>> echo "HELLO"
+>> }
+HELLO
+HELLO
+(base) PS C:\Users\theeba\PSScripts\day2> $v1,$v2=10,20,30,"data"
+(base) PS C:\Users\theeba\PSScripts\day2> $v2
+20
+30
+data
+(base) PS C:\Users\theeba\PSScripts\day2> $s="Scripting Language"
+(base) PS C:\Users\theeba\PSScripts\day2> if($s -like "Script*"){
+>> write-host "Pattern Match"}
+Pattern Match
+(base) PS C:\Users\theeba\PSScripts\day2> if($s -notlike "Script*"){
+>> write-host "Pattern Not Match"}else{ echo "Pattern Match"}
+Pattern Match
+(base) PS C:\Users\theeba\PSScripts\day2> if($s -notlike "S?r*"){
+>> write-host "Pattern Not Match"}else{ echo "Pattern Match"}
+Pattern Match
+(base) PS C:\Users\theeba\PSScripts\day2>
+
+
+=======================================================================================
+
+File Handling
+-------------
+
+keyboard-----------------------Script----------------------------Monitor
+		read-host	|	write-host write-output echo
+<STDIN>				|				<STDOUT>
+				|
+				File (Storage)
+
+
+New-Item Folder/reg.file   -ItemType file
+           |
+           |
+          -ItemType directory
+
+Get-Content - read content of existing file
+
+Set-Content - Add/Writes data to file
+
+Clear-Content - erase content of file
+
+Add-content - Append operation
+
+
+redirection symbols
+-------------------
+
+>      -    Create / Write
+
+>>     -    Create / Append
+             |
+           if file not exist
+           creates a new file
+
+
+New-Item "file PAth" _itemType File
+                
+New-Item "file PAth" _itemType Directory
+
+Set-Content "File Path" "Content"   # Write operation - if file already exist- it  
+						overwrites existing content
+
+Get-Content "File Path"
+
+Add-Content "File Path" "Updated-content"   # Append operation >>
+
+Remove-Content "File path"
+
+Remove-Content "directory" -recurse
+
+Rename-Content "OLD file Name" NewfileNAme"
+
+copy-Item "OLDNAME" "NEWNAME"
+
+copy-Item "OlDname" "NewNAme" -Force   - if destination already has filename, copy fails.
+					To overwrite existing destination content,
+					 use -force
+cmdlet|Convert-To-HTML -property ... -> text.html
+
+
+Test-Path
+---------
+|----------True/ FAlse
+
+
+Test-Path -path "File-path"     -> True/ False
+
+
+
+
+keyboard-----------------------Script----------------------------Monitor
+		read-host	|	write-host write-output echo
+<STDIN>				|				<STDOUT>
+				|
+				File (Storage)
+
+1. Read data from <STDIN>----> Script----> Write data to File  # NOt monitor
+           read-host                         cmdlet (or) > >>
+
+
+2.  Read data from FILE  ---> Script ----> display to Monitor 
+     Get-Content                                write-host  write-output  echo
+
+3. Reading data from <ONEFILE>---> Script-----> Write data to <ANOTHERFILE>  # no IO
+
+ 
+-------------------------------------------------------------------------------------
+
+1. Read data from <STDIN>----> Script----> Write data to File  # NOt monitor
+
+1) set-content
+--------------
+$var=read-host "Enter some text"
+Set-content resultfile $var
+
+   vs
+
+for($i=0;  $i -lt 3 ; $i++){
+$var=read-host "Enter some text"
+Set-content resultfile $var         # overwrite existing content
+}
+
+--------------------------------------------------------------------------
+2) Add-content
+--------------
+$var=read-host "Enter some text"
+Add-content resultfile $var
+
+   vs
+
+for($i=0;  $i -lt 3 ; $i++){
+$var=read-host "Enter some text"
+Add-content resultfile $var         # Appends with existing content
+}
+
+---------------------------------------------------------------------------
+3) Redirection (>)
+------------------
+$fname
+for($i=0;  $i -lt 3 ; $i++){
+$var=read-host "Enter some text"
+echo $var > $fname       # overwrite existing content  - like Set-content
+}
+
+--------------------------------------------------------------------------
+4) Redirection (>>) 
+-------------------
+$fname
+for($i=0;  $i -lt 3 ; $i++){
+$var=read-host "Enter some text"
+echo $var >> $fname       # Appends with existing content  - like Add-content
+}
+
+
+----------------------------------------------------------------------------
+2.  Read data from FILE  ---> Script ----> display to Monitor 
+
+foreach(member in collection){
+>> echo ...
+>> }
+
+foreach(linecontent in filecontent){
+...
+}
+
+
+$var= (Get-content filename)
+echo $var
+
+vs
+
+$c=1
+foreach( $v in get-content filename){
+echo "Line No $c :$var"
+$c++
+}
+
+==================================================================
+
+if( $c -eq 3){
+     #	break        # exit from loop - only line 1,2 displayed
+      continue       # display all lines except line3  line 1,2,4,5
+}else
+{
+echo $v
+}
+====================================================================
+
+
+3. Reading data from <ONEFILE>---> Script-----> Write data to <ANOTHERFILE>  # no IO
+
+	$fname=...
+	
+	foreach($v in get-content $fname){
+		$UpdatedData=$v.toupper()
+		echo $UpdatedData >> $newfname
+               # Add-content $newFname $updatedData
+	}
+
+===================================================================================
+(base) PS C:\Users\theeba\PSScripts\day2> Get-ChildItem
+
+
+    Directory: C:\Users\theeba\PSScripts\day2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        04-03-2025     10:19           3419 2.txt
+-a----        04-03-2025     11:30             88 Inventory.txt
+-a----        04-03-2025     09:43            867 p1.ps1
+-a----        04-03-2025     11:00            203 p2.ps1
+-a----        04-03-2025     11:27            222 p3.ps1
+-a----        04-03-2025     11:28            225 p4.ps1
+-a----        04-03-2025     11:51            125 p5.ps1
+-a----        04-03-2025     11:50              0 p6.ps1
+-a----        04-03-2025     11:34             32 rt.log
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> Get-ChildItem| where-object {$_.length}
+
+
+    Directory: C:\Users\theeba\PSScripts\day2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        04-03-2025     10:19           3419 2.txt
+-a----        04-03-2025     11:30             88 Inventory.txt
+-a----        04-03-2025     09:43            867 p1.ps1
+-a----        04-03-2025     11:00            203 p2.ps1
+-a----        04-03-2025     11:27            222 p3.ps1
+-a----        04-03-2025     11:28            225 p4.ps1
+-a----        04-03-2025     11:51            125 p5.ps1
+-a----        04-03-2025     11:34             32 rt.log
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> Get-ChildItem| where-object {$_.length -gt 500}
+
+
+    Directory: C:\Users\theeba\PSScripts\day2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        04-03-2025     10:19           3419 2.txt
+-a----        04-03-2025     09:43            867 p1.ps1
+
+(base) PS C:\Users\theeba\PSScripts\day2> Get-ChildItem|where-Object { $_.length -gt 500}| set-content -path ".\rr.log"
+
+(base) PS C:\Users\theeba\PSScripts\day2> get-content ".\rr.log"
+2.txt
+p1.ps1
+
+
+=========================================================================================
+
+Q1. Write a powershell script - display list of log files under working directory in below format
+
+1. p1.log
+2. p2.log
+3. p3.log
+..
+10. p4.log
+
+Total no. of files : 10
+---------------------------------------------------------------------------------------
+
+Q2. Write a powershell script - display menu driven program
+
+###################### SYSTEM INFO  ###################
+#						      #
+#	1. List of top 10 Process- sort memory usage  #
+#	2. List running service			      #
+#       3. Total no. of alias 			      #
+#       4. Display Process Details                    #
+#       5. Display Login name and Login Path          #
+#						      #
+#######################################################
+
+
+Enter a Choice: ..............
+
+-----------------------------------------------------------------------------------------
+
+Q3. File: Dept.txt
+    --------------
+	admin
+	sales
+	Hr
+	Prod
+	QA
+	CRM
+	DBA
+   ----------------
+
+A. Write a powershell script - using file handling , read above dept.txt
+ ignore following departments -- sales, QA, HR
+ display remaining department names to <STDOUT>
+
+B.  ignore following departments -- sales, QA, HR
+ write remaining department names to <NEW FILE>
+-----------------------------------------------------------------------------------------
+
+Q4. Using where-object modify the conditional statement below
+
+foreach($v in Get-ChildItem){
+	if($v.length -gt 100 -and $v.length -lt 200){
+	echo $v
+	}
+}
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> Get-ChildItem|where-object{ $_.length -gt 100 -and $_.length -lt 200}
+
+
+    Directory: C:\Users\theeba\PSScripts\day2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        04-03-2025     11:51            125 p5.ps1
+----------------------------------------------------------------------------------------
+Q5. Write a powershell script- list of chrome process consuming cpu utilization 10 and above
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> Get-Process | where-Object {$_.name -eq "chrome" -and $_.cpu -gt 10}
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    554      42   171832     200300      17.69   1712   7 chrome
+   1992      66   128084     191000      80.17   6676   7 chrome
+    369      25    20392      44912      14.73  28992   7 chrome
+--------------------------------------------------------------------------------------
+
+Array
+-----
+    |--variable- to hold more than 1 value - ordered 
+    |--index [int]
+    |---heterogeneous--- different datatype
+
+$variable = value
+
+$a=10
+$b=1.22
+$c="data"
+--------//single value
+
+
+Get-Process ; Get-ChildItem; Get-Alias; Get-Content <filename>  ---> more than 1 value
+
+GET-XYZ
+______|- result --- Array_
+
+Syntax:-
+-------
+	$v= @(list of values)   => Array
+	
+	$port= @(80,100,2020,122,"example.com",332.222)  is as same
+
+	$port=(80,100,2020,122,"example.com",332.222)   
+
+	$port =80,30,20
+	
+	$v= "" ==> This is not array; empty string
+	$a=@() ==> This is empty Array
+
+$a[index]
+
+
+$port= @(80,100,2020,122,"example.com",332.222) 
+          |  |   |    |      |           |
+	  0  1   2    3      4           5         positive Indexing
+          -6 -5 -4   -3     -2           -1          negative Indexing
+
+$port[0]===> 80====> $port[-6]
+
+Array is mutable- modifyable
+
+$arrayname[index]=Updated_VALue
+
+Add a new element to Array:-   $arrayname+newvalue
+
+foreach(member in collection){
+                   |
+		   Array
+	..
+}
+
+foreach($v in $arrayNAme){
+	...
+}
+
+vs
+
+$a.foreach({$_})         # object.method()
+
+#object.foreach({},arg)  
+
+====================================================================================
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> cat data.log
+12
+data
+1.222
+(base) PS C:\Users\theeba\PSScripts\day2> $v=get-content data.log
+(base) PS C:\Users\theeba\PSScripts\day2> $v[0]
+12
+(base) PS C:\Users\theeba\PSScripts\day2> $v[-1]
+1.222
+(base) PS C:\Users\theeba\PSScripts\day2> [int]$v[-1]
+1
+(base) PS C:\Users\theeba\PSScripts\day2> $v+"NEWDATA"
+12
+data
+1.222
+NEWDATA
+(base) PS C:\Users\theeba\PSScripts\day2> $v
+12
+data
+1.222
+(base) PS C:\Users\theeba\PSScripts\day2> $v=$v+"NEWDATA"
+(base) PS C:\Users\theeba\PSScripts\day2> $v
+12
+data
+1.222
+NEWDATA
+(base) PS C:\Users\theeba\PSScripts\day2> foreach($var in $v){
+>> echo $var}
+12
+data
+1.222
+NEWDATA
+(base) PS C:\Users\theeba\PSScripts\day2> $v.foreach({$_})
+12
+data
+1.222
+NEWDATA
+(base) PS C:\Users\theeba\PSScripts\day2> $v
+12
+data
+1.222
+NEWDATA
+(base) PS C:\Users\theeba\PSScripts\day2> $a=@(10,20,30,40)
+(base) PS C:\Users\theeba\PSScripts\day2> $a.foreach({$_})
+10
+20
+30
+40
+(base) PS C:\Users\theeba\PSScripts\day2> $a.foreach({$_+50})
+60
+70
+80
+90
+(base) PS C:\Users\theeba\PSScripts\day2> @("05/27/2020").foreach([datetime])
+
+27 May 2020 00:00:00
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> "abc".toupper()
+ABC
+(base) PS C:\Users\theeba\PSScripts\day2> ("python","perl","ruby").foreach("Toupper")
+PYTHON
+PERL
+RUBY
+(base) PS C:\Users\theeba\PSScripts\day2> ("python","perl","ruby").foreach({$_.toupper()})
+PYTHON
+PERL
+RUBY
+
+(base) PS C:\Users\theeba\PSScripts\day2> ("python","perl","ruby").foreach({$_.length -lt 5})
+False
+True
+True
+(base) PS C:\Users\theeba\PSScripts\day2> ("python","perl","ruby").where({$_.length -lt 5})
+perl
+ruby
+(base) PS C:\Users\theeba\PSScripts\day2> $a=@("python","perl","ruby")
+(base) PS C:\Users\theeba\PSScripts\day2> $a.IndexOf("perl")
+1
+(base) PS C:\Users\theeba\PSScripts\day2> $a.IndexOf("python")
+0
+(base) PS C:\Users\theeba\PSScripts\day2> $a.IndexOf("ruby")
+2
+(base) PS C:\Users\theeba\PSScripts\day2>
+(base) PS C:\Users\theeba\PSScripts\day2>
+(base) PS C:\Users\theeba\PSScripts\day2> $s="root:x:bin:bash"
+(base) PS C:\Users\theeba\PSScripts\day2> $s.split(":")
+root
+x
+bin
+bash
+(base) PS C:\Users\theeba\PSScripts\day2> $a=$s.split(":")
+(base) PS C:\Users\theeba\PSScripts\day2> $a.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     String[]                                 System.Array
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> # $ ---> @
+(base) PS C:\Users\theeba\PSScripts\day2> $s="The System Execution Proceeds"
+(base) PS C:\Users\theeba\PSScripts\day2> $s.split(" ")
+The
+System
+Execution
+Proceeds
+(base) PS C:\Users\theeba\PSScripts\day2> "Arun,Sales,20000".split(",")
+Arun
+Sales
+20000
+(base) PS C:\Users\theeba\PSScripts\day2> "Arun,Sales,20000".split(",")=$name,$dept,$cost
+(base) PS C:\Users\theeba\PSScripts\day2> $name
+(base) PS C:\Users\theeba\PSScripts\day2> $name,$dept,$cost="Arun,Sales,20000".split(",")
+(base) PS C:\Users\theeba\PSScripts\day2> $name
+Arun
+(base) PS C:\Users\theeba\PSScripts\day2> $dept
+Sales
+(base) PS C:\Users\theeba\PSScripts\day2> $cost
+20000
+
+
+==================================================================================
+Task
+----
+Q1.
+
+Write a powerscript
+Given Array:
+	
+$emp = @("ram,sales,2000","Arun,hr,1000","Vijay,prod,10000","Raghav,prod,2212")
+
+display Emp name and Emp Working Department to <STDOUT>
+calculate the sum of Emp cost
+Display Total emp cost to <STDOUT>
+
+Note: use split()
+
+Expected result
+---------------
+Emp name:  ram		Working department: sales
+Emp name:  Arun	 	Working department: hr
+Emp name:  Vijay 	Working department: prod
+Emp name:  Raghav	Working department: prod
+--------------------------------------------------
+Total Employee Cost      :  15212
+-------------------------------------------------
+
+$n,$d,$c="ram,prod,1000"
+..
+----------------------------------------------------------------------------
+Q2.
+
+Write a powershell script following the below steps:
+
+step 1: create an empty array : $host=@()
+step 2: using while loop - 5 times
+		read a hostname from <STDIN>
+		Add input hostname to existing Array ( Add to host)
+step 3: Display total no. of Array Elements
+step 4: using foreach loop, display list of hostnames
+step 5: Modify 1st Index hostname ---> 127.0.0.1
+step 6: step 4 with updated hostname 
+
+
+===============================================================================
+
+Hash
+====
+|-----------Associative Array (or) Dictionary (or) map  ----> Hash
+
+Hash-collection of unordered elements  - Data (Key/Value)
+                   ---------
+                      |
+                     [key ]
+
+Array - collection - ordered elements  - Data (Single)
+                    ---------
+                      |
+                     [Index]
+
+
+$arrayName[index]   => element in index
+
+$arrayName.gettype()===> Object
+
+
+$hash_variable=@{KEY1=VALUE ; KEY2=VALUE2; ....KEYN=VALUE N}
+
+keys-> unique
+
+Array				vs			Hash
+-----							-----
+
+Collection of ordered elmts				collection of unordered elemnts
+
+index [int]						key ["string"]
+
+$v=@()							$v=@{}
+
+$v=@(10,2.33,"data")				$v=@{"K1"="v1"; "k2"=100; "k3"=12.33}
+      |   |      |					    
+      ---------------				|------------------|
+       0   1     2				|  keys	|  value   |
+       -3  -2    -1				-------------------
+						|   k1  |    v1	    |
+						--------------------
+						|   k2  |   100    |
+						--------------------
+						|   k3  |   12.33  |
+						---------------------
+
+$v[index]					$v["k1"]--> V1
+
+$v[0]--> 10	
+				
+$v[0]= "DATA"					$v[Oldkey]="Updated_value"
+	|
+      Modify		
+
+$a=$a+"New-element"				$h["newkey"]="new_value"
+						(or)
+						$h.add("key","value")
+
+
+----------------------------------------------------------------------------------
+(base) PS C:\Users\theeba\PSScripts\day2> $h=@{}
+(base) PS C:\Users\theeba\PSScripts\day2> $h.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Hashtable                                System.Object
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> $h.gettype().name
+Hashtable
+(base) PS C:\Users\theeba\PSScripts\day2> $h.length
+1
+(base) PS C:\Users\theeba\PSScripts\day2> $h.count
+0
+(base) PS C:\Users\theeba\PSScripts\day2>
+(base) PS C:\Users\theeba\PSScripts\day2> $h=@{"F1"="C:\p1.conf"; "F2"="D:\project\demo\test.log"; "F3"=100; "F4"=1.22}
+(base) PS C:\Users\theeba\PSScripts\day2>
+(base) PS C:\Users\theeba\PSScripts\day2> $h.count
+4
+(base) PS C:\Users\theeba\PSScripts\day2> $h
+
+Name                           Value
+----                           -----
+F2                             D:\project\demo\test.log
+F4                             1.22
+F3                             100
+F1                             C:\p1.conf
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> $h["F2"]
+D:\project\demo\test.log
+(base) PS C:\Users\theeba\PSScripts\day2> echo "File name : $($h["F2"])"
+File name : D:\project\demo\test.log
+(base) PS C:\Users\theeba\PSScripts\day2> $h["F1"]="/var/log/repo.log"
+(base) PS C:\Users\theeba\PSScripts\day2> $h
+
+Name                           Value
+----                           -----
+F2                             D:\project\demo\test.log
+F4                             1.22
+F3                             100
+F1                             /var/log/repo.log
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> $h.count
+4
+(base) PS C:\Users\theeba\PSScripts\day2> $h["K5"]="p1.log"
+(base) PS C:\Users\theeba\PSScripts\day2> $h
+
+Name                           Value
+----                           -----
+F2                             D:\project\demo\test.log
+F4                             1.22
+F3                             100
+F1                             /var/log/repo.log
+K5                             p1.log
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> $h.count
+5
+(base) PS C:\Users\theeba\PSScripts\day2> $h.add("K6","p2.java")
+(base) PS C:\Users\theeba\PSScripts\day2> $h
+
+Name                           Value
+----                           -----
+K5                             p1.log
+K6                             p2.java
+F4                             1.22
+F1                             /var/log/repo.log
+F3                             100
+F2                             D:\project\demo\test.log
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> $h.count
+6
+
+(base) PS C:\Users\theeba\PSScripts\day2> foreach($v in $h){
+>> echo $v
+>> }
+
+Name                           Value
+----                           -----
+K5                             p1.log
+K6                             p2.java
+F4                             1.22
+F1                             /var/log/repo.log
+F3                             100
+F2                             D:\project\demo\test.log
+
+
+(base) PS C:\Users\theeba\PSScripts\day2> foreach($v in $h.keys){
+>> echo $v
+>> }
+K5
+K6
+F4
+F1
+F3
+F2
+(base) PS C:\Users\theeba\PSScripts\day2> foreach($v in $h.values){
+>> echo $v
+>> }
+p1.log
+p2.java
+1.22
+/var/log/repo.log
+100
+D:\project\demo\test.log
+(base) PS C:\Users\theeba\PSScripts\day2> foreach($v in $h.keys){
+>> echo "KEY: $v `t VALUE: $($h[$v])"
+>> }
+KEY: K5          VALUE: p1.log
+KEY: K6          VALUE: p2.java
+KEY: F4          VALUE: 1.22
+KEY: F1          VALUE: /var/log/repo.log
+KEY: F3          VALUE: 100
+KEY: F2          VALUE: D:\project\demo\test.log
+(base) PS C:\Users\theeba\PSScripts\day2>
+-------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+

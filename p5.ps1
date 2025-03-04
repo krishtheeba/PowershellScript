@@ -1,33 +1,7 @@
-
-$cmd=read-host "Enter a command"
-$file= "C:\Users\Theeba\PSScripts\p2.ps1"
-
-echo " Command Result : 
-------------------------
-$(& $cmd)                        
-------------------------
-$(& $file)
-------------------------"
-
-
-<#
-&- invoke operator- cmdlet inside script  
-#>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$fname="C:\Users\Theeba\PSScripts\day2\rt.log"
+$c=1
+foreach( $v in get-content $fname){
+echo "Line No $c :$v"
+$c++
+}
 

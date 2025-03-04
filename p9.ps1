@@ -1,35 +1,31 @@
-
 <#
-Write a powershell 
-read a shell name from <STDIN>
+Q3. File: Dept.txt
+    --------------
+	admin
+	sales
+	Hr
+	Prod
+	QA
+	CRM
+	DBA
+   ----------------
 
-input shellname is bash -----> profile="~/.bashrc"
-input shellname is psh ------>profile="$PSHOME/profile.ps1"
-input shellname is ksh ------> profile="~/.kshrc"
-|
-------------- all input doesnot match ---> default profile="C:/profile.ps1"
-					   default shellname="/sbin/nologin"
+A. Write a powershell script - using file handling , read above dept.txt
+ ignore following departments -- sales, QA, HR
+ display remaining department names to <STDOUT>
 
-|--------display Shellname and profile name
-
+B.  ignore following departments -- sales, QA, HR
+ write remaining department names to <NEW FILE>
 #>
 
-$var=read-host "Enter the shell name"
 
-if($var -eq "bash"){
-	$p="~/.bashrc"
-}elseif($var -eq "psh"){
-	$p="$PSHOME/profile.ps1"
-}elseif($var -eq "ksh"){
-	$p="~/.kshrc"
-}else{
-	write-Host "Sorry $var shell name is not matched"
-	$p="C:/profile.ps1"
-	$var="/sbin/nologin"
+foreach( $v in get-content "C:\Users\Theeba\PSScripts\day2\dept.txt"){
+	if( $v -eq "sales" -or $v -eq "QA" -or $v -eq "HR"){
+		continue
+	}
+	else{
+		#echo $v
+		echo $v >> D1.txt
+	}
+
 }
-
-Write-host "Shell name: $var `t Profile:$p"
-
-			
-
-

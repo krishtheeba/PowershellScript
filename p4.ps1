@@ -1,24 +1,10 @@
-<#
-Task 4 :
---------
-Modify Task2 with single Write-host
+#Redirection symbol (>>)
 
-#>
+$fname="C:\Users\theeba\PSScripts\day2\Inventory.txt"
+for( $i=0; $i -lt 3 ; $i++){
 
+$var=read-host "Enter a text"
 
-$name= $(whoami)
-$version= $(get-host).version
-$mycwd= $(get-location)
-$myDate= $(get-date -UFormat %m-%d-%Y)
+echo $var >> $fname      # like add-content - appends existing content
 
-$c= $(Get-Process).length 
-
-write-host "Login Name: $name
-Working Powershell Version : $version
-Working Directory Path : $mycwd
-Today : $myDate
-
-My Hostname : $(hostname)  # cmd with cmd
-Total No.of Running Process :$c"
-
-
+}

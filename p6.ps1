@@ -1,28 +1,19 @@
-$n=450
+<#
+Q1. Write a powershell script - display list of log files under working directory in below format
 
-if($n -gt 500){
-	write-host "True Only"
-}
-else{
-	write-host "False Block"
-}
+1. p1.log
+2. p2.log
+3. p3.log
+..
+10. p4.log
 
-#------------------------------------------
+Total no. of files : 10
+#>
 
-$name= "root"
-
-if($name -eq "root"){
-	write-host "Login name is success"
-}
-else{
-	write-host "Login Failed"
+$c=0
+foreach($v in Get-ChildItem *.log){
+	$c++
+	echo "$c . $v.name"
 }
 
-#-------------------------------------------
-
-if((Get-process ).length -lt 100){
-	write-host "Total no. of Process count is below 100"
-}else{
-	write-host "No. of Process is greater than 100"
-}
-#---------------------------------------------------
+write-host "------------------------------`nTotal No. of. log files : $c `n------------------------------------"
