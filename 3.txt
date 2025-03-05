@@ -1,0 +1,1234 @@
+Array:-
+$a=@(....)
+$a[index]-->
+
+Hash:-
+$a=@{k1=v1;k2=v2}
+
+
+Array of Array
+Array of Hash
+Hash of Array
+Hash of Hash
+
+$arrayname[index]==> syntax
+$v= @(elements) => Array => index based access
+$v[index]
+
+Array of Array
+
+$a=@(@(..), @(..), @(..))
+      ====  =====   ====
+       0      1      2
+$a[0]==|      |
+	      |	
+$a[1]========|
+
+
+---------------------------------
+Array of Hash
+
+$a=@( @{} , @{}  , @{})
+      ===   ===    ===
+       0     1      2
+
+-------|
+
+syntax:- $hashname["newKey"]="NewValue"
+
+$a[0]["K1"]="DATA1"   => add new elmt to inner hash
+
+==================================================================================
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $emp = @{ "name"="Sathis"; "dept"="Sales"}
+(base) PS C:\Users\theeba\PSScripts\day3> $emp
+
+Name                           Value
+----                           -----
+name                           Sathis
+dept                           Sales
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $emp['name']
+Sathis
+(base) PS C:\Users\theeba\PSScripts\day3> $emp.keys
+name
+dept
+(base) PS C:\Users\theeba\PSScripts\day3> $emp.values
+Sathis
+Sales
+(base) PS C:\Users\theeba\PSScripts\day3> $emp['cost']=129990
+(base) PS C:\Users\theeba\PSScripts\day3> $emp
+
+Name                           Value
+----                           -----
+dept                           Sales
+cost                           129990
+name                           Sathis
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $emp.add('city','Bengaluru')
+(base) PS C:\Users\theeba\PSScripts\day3> $emp
+
+Name                           Value
+----                           -----
+dept                           Sales
+cost                           129990
+name                           Sathis
+city                           Bengaluru
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $emp = @{"name"=@("Sathish","Arun","Vijay","Sai"); "dept"=@("sales","admin","QA","Prod")}
+(base) PS C:\Users\theeba\PSScripts\day3> $emp
+
+Name                           Value
+----                           -----
+name                           {Sathish, Arun, Vijay, Sai}
+dept                           {sales, admin, QA, Prod}
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $emp["name"]
+Sathish
+Arun
+Vijay
+Sai
+(base) PS C:\Users\theeba\PSScripts\day3> $emp["name"].gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $emp.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Hashtable                                System.Object
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $a=@(@{},@{},@{})
+(base) PS C:\Users\theeba\PSScripts\day3> @a.gettype().name
+At line:1 char:1
++ @a.gettype().name
++ ~~
+The splatting operator '@' cannot be used to reference variables in an expression. '@a' can be used only as an argument to a
+command. To reference variables in an expression use '$a'.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : SplattingNotPermitted
+
+(base) PS C:\Users\theeba\PSScripts\day3> $a.gettype().name
+Object[]
+(base) PS C:\Users\theeba\PSScripts\day3> $a.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $a[0].gettype().name
+Hashtable
+(base) PS C:\Users\theeba\PSScripts\day3> $a[0]["k1"]="Data1"
+(base) PS C:\Users\theeba\PSScripts\day3> $a
+
+Name                           Value
+----                           -----
+k1                             Data1
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $a[1]["Key1"]="Value1"
+(base) PS C:\Users\theeba\PSScripts\day3> $a[2]["Name"]="Sai"
+(base) PS C:\Users\theeba\PSScripts\day3> $a
+
+Name                           Value
+----                           -----
+k1                             Data1
+Key1                           Value1
+Name                           Sai
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $a.gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $a[0].gettype().name
+Hashtable
+(base) PS C:\Users\theeba\PSScripts\day3> $a[1].gettype().name
+Hashtable
+(base) PS C:\Users\theeba\PSScripts\day3> $a[2].gettype().name
+Hashtable
+(base) PS C:\Users\theeba\PSScripts\day3> $a[0]["k2"]="Data2"
+(base) PS C:\Users\theeba\PSScripts\day3> $a
+
+Name                           Value
+----                           -----
+k2                             Data2
+k1                             Data1
+Key1                           Value1
+Name                           Sai
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $h=@{"k1"="v1"; "k2"="v2"; "k3"=@("VAlue1","Value2","Value3")}
+(base) PS C:\Users\theeba\PSScripts\day3> $h["k1"]
+v1
+(base) PS C:\Users\theeba\PSScripts\day3> $h["k2"]
+v2
+(base) PS C:\Users\theeba\PSScripts\day3> $h["k3"]
+VAlue1
+Value2
+Value3
+(base) PS C:\Users\theeba\PSScripts\day3> $process=@{}
+(base) PS C:\Users\theeba\PSScripts\day3> $process["notepad"]="C:\Winx\notepad.exe"
+(base) PS C:\Users\theeba\PSScripts\day3> $process["python"]="C:\Winx\python3.exe"
+(base) PS C:\Users\theeba\PSScripts\day3> $process
+
+Name                           Value
+----                           -----
+python                         C:\Winx\python3.exe
+notepad                        C:\Winx\notepad.exe
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $appln=@{}
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP1"]=@("Python","Perl","Ruby")
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP2"]=@("DB1","DB2","DB3","DB4")
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> $appln.add("APP3",@("v1","v2","v3"))
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP1"]
+Python
+Perl
+Ruby
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP2"]
+DB1
+DB2
+DB3
+DB4
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP3"]
+v1
+v2
+v3
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP1"][1]
+Perl
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP1"][1]
+Perl
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP1"][0]
+Python
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP1"][2]
+Ruby
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP2"][2]
+DB3
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP2"][0]
+DB1
+(base) PS C:\Users\theeba\PSScripts\day3> $appln["APP2"][1..3]
+DB2
+DB3
+DB4
+(base) PS C:\Users\theeba\PSScripts\day3> # Hash of Hash
+(base) PS C:\Users\theeba\PSScripts\day3> $h=@{"K1"="value"}
+(base) PS C:\Users\theeba\PSScripts\day3> #           |--------HAsh
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> $hoh=@{"k1"=@{"kk1"="V1";"kk2"="v2";"kk3"="v3"}}
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> $hoh.count
+1
+(base) PS C:\Users\theeba\PSScripts\day3> $hoh.count["k1"]
+(base) PS C:\Users\theeba\PSScripts\day3> $hoh["k1"]
+
+Name                           Value
+----                           -----
+kk3                            v3
+kk1                            V1
+kk2                            v2
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $hoh["k1"]["kk3"]
+v3
+(base) PS C:\Users\theeba\PSScripts\day3> #hoa=@{"ports"=@(); "proto"=@()}
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> $p=@{"shell"=(get-process powershell); "notepad"=(get-process notepad)}
+(base) PS C:\Users\theeba\PSScripts\day3> $p.count
+2
+(base) PS C:\Users\theeba\PSScripts\day3> $p["shell"]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    524      30    66872      72572       1.28  15132   8 powershell
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["shell"][-1]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    524      30    66872      72572       1.30  15132   8 powershell
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["shell"][0]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    524      30    66872      72572       1.30  15132   8 powershell
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    979      47    71448     103424       8.36  10816   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    979      47    71448     103424       8.56  10816   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> notepad p1.ps1
+(base) PS C:\Users\theeba\PSScripts\day3> notepas p2.ps1
+notepas : The term 'notepas' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ notepas p2.ps1
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (notepas:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(base) PS C:\Users\theeba\PSScripts\day3> notepad p2.ps1
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    979      47    71448     103424       8.69  10816   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p=@{"shell"=(get-process powershell); "notepad"=(get-process notepad)}
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+   1124      49    72852     108208       8.69  10816   8 Notepad
+    210      13     3044      14556       0.03  13184   8 Notepad
+    210      13     3060      14528       0.03  23840   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"][0]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+   1124      49    72852     108208       8.69  10816   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"][-1]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    210      13     3060      14528       0.03  23840   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"][0..1]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+   1124      49    72852     108208       8.69  10816   8 Notepad
+    210      13     3044      14556       0.03  13184   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["notepad"][2..3]
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    210      13     3060      14528       0.03  23840   8 Notepad
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p.add("Service",(Get-Service))
+(base) PS C:\Users\theeba\PSScripts\day3> $p["Service"][2..3]
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  ALG                Application Layer Gateway Service
+Stopped  AppIDSvc           Application Identity
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["Service"][1..10
+>> ]
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  AJRouter           AllJoyn Router Service
+Stopped  ALG                Application Layer Gateway Service
+Stopped  AppIDSvc           Application Identity
+Running  Appinfo            Application Information
+Stopped  AppReadiness       App Readiness
+Stopped  AppXSvc            AppX Deployment Service (AppXSVC)
+Running  AudioEndpointBu... Windows Audio Endpoint Builder
+Running  Audiosrv           Windows Audio
+Stopped  autotimesvc        Cellular Time
+Stopped  AxInstSV           ActiveX Installer (AxInstSV)
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["Service"][1..10]| where-object{ $_ .status -eq "stopped"}
+At line:1 char:40
++ $p["Service"][1..10]| where-object{ $_ .status -eq "stopped"}
++                                        ~~~~~~~
+Unexpected token '.status' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+
+(base) PS C:\Users\theeba\PSScripts\day3> $p["Service"][1..10]| where-object{ $_.status -eq "stopped"}
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  AJRouter           AllJoyn Router Service
+Stopped  ALG                Application Layer Gateway Service
+Stopped  AppIDSvc           Application Identity
+Stopped  AppReadiness       App Readiness
+Stopped  AppXSvc            AppX Deployment Service (AppXSVC)
+Stopped  autotimesvc        Cellular Time
+Stopped  AxInstSV           ActiveX Installer (AxInstSV)
+
+
+(base) PS C:\Users\theeba\PSScripts\day3>
+
+=====================================================================
+
+(base) PS C:\Users\theeba\PSScripts\day3> $data= @(
+>> [PSCustomObject]@{'Fullname'="sam"; Age=33}
+>> [PSCustomObject]@{'Fullname'="Arun"; Age=35}
+>> [PSCustomObject]@{'Fullname'="viji"; Age=34}
+>> )
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> $data|format-table @{Name="Custom_name"; Expression={$_.Fullname}},@{Name="Years"; Expression={$_.Age}}
+>>
+
+Custom_name Years
+----------- -----
+sam            33
+Arun           35
+viji           34
+
+=================================================================================
+
+Select-object 
+------------------------
+|---------------------------selects properties related to object
+
+-property
+-first
+-last
+-skip
+-index
+-{script}
+
+
+
+Select-string
+-------------
+|----------------like grep 
+ |-----------------------based on lines of text
+
+(base) PS C:\Users\theeba\PSScripts\day3> cat f1.txt| select-string "test"
+
+Test report on 12:02:20
+Test
+Test test test
+test test
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> # select-string "test" inputfile
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> cat f1.txt| select-string  -pattern "test" -List
+
+Test report on 12:02:20
+Test
+Test test test
+test test
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> cat f1.txt| select-string  -pattern "test" -NotMatch
+
+xyx
+ereqw
+sada
+report
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> Get-date | out-file d1.txt -NoClobber
+out-file : The file 'C:\Users\theeba\PSScripts\day3\d1.txt' already exists.
+At line:1 char:12
++ Get-date | out-file d1.txt -NoClobber
++            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ResourceExists: (C:\Users\theeba\PSScripts\day3\d1.txt:String) [Out-File], IOException
+    + FullyQualifiedErrorId : NoClobber,Microsoft.PowerShell.Commands.OutFileCommand
+
+(base) PS C:\Users\theeba\PSScripts\day3> Set-content -path ".\d1.txt" -value "New data" -NoClobber
+Set-Content : A parameter cannot be found that matches parameter name 'NoClobber'.
+At line:1 char:48
++ Set-content -path ".\d1.txt" -value "New data" -NoClobber
++                                                ~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Set-Content], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.SetContentCommand
+
+(base) PS C:\Users\theeba\PSScripts\day3> New-content -path ".\d1.txt" -value "New data" -NoClobber
+New-content : The term 'New-content' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ New-content -path ".\d1.txt" -value "New data" -NoClobber
++ ~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (New-content:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+===================================================================================
+
+
+RegX
+====
+
+   |-----search     -------------> -match (operator) =====>  True/ False
+   |----- substitute (replace)  ---> -replace (operator)  ===> True/ False
+
+select-string ---> comlet ---> Test based pattern search
+
+
+$eid= read-host "Enter a ID:"
+|
+|---- 123
+|---abc
+|---a2v33
+|--a**
+|--#$#$$
+
+<UPPERCASE> <DIGIT><DIGIT><DIGIT> --->expected format
+
+
+BRE				ERE
+----
+
+^				|
+$				()
+^pattern$			+
+^$ - empty line			{}
+
+.*
+[]
+^[]
+[^]
+
+
+^pattern---> 
+pattern$ --->
+.   ---> any single char (except `n)
+
+^..  -string starts with any two char
+..$  - string  ends with 2 chars
+
+
+"power shell" -match  "^power.shell$"  -> True
+"power:shell" -match  "^power.shell$" -> True
+"power,shell" -match  "^power.shell$"  -> True
+
+
+"power     shell" -match  "^power.shell$" -> False
+
+
+"power     shell" -match  "^power.*shell$" -> True
+
+
+"power&X&ASDsSSasASasSshell" -match  "^power.*shell$" -> True
+
+[]-> single character
+
+
+[AB]4r5
+-------
+A4r5
+B4r5
+
+[AB][CD]45
+----------   // string length 4
+AC45
+AD45
+BC45
+BD45
+
+"working kernel is aix" -match "abc"
+                               ----> word
+
+
+"working kernel is aix" -match "[abc]"
+                                ------> 1 character
+
+"working kernel is aix" -match "[abc][ef]"
+                                 --------> 2 character
+ae
+be
+ce
+af
+bf
+cf
+//match
+
+[A-Z]
+[a-z]
+[0-9]
+[A-Za-Z0-9]    -> [:alnum:]   --> \w
+[0-9]     --> [:digit:]   --> \d
+space \s
+
+=======================================================================================
+
+(base) PS C:\Users\theeba\PSScripts\day3> "ram,prod" -match "sales"
+False
+(base) PS C:\Users\theeba\PSScripts\day3> "anu,sales" -match "sales"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> if( "anu,sales" -match "sales"){
+>> echo "Matched"
+>> }else{
+>> echo "Not Matched"}
+Matched
+(base) PS C:\Users\theeba\PSScripts\day3> "list of sales emp details" -match "sales"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> "list of sales emp details" -match "^sales"
+False
+(base) PS C:\Users\theeba\PSScripts\day3> "list of sales emp details" -match "^sales$"
+False
+(base) PS C:\Users\theeba\PSScripts\day3> "list of sales emp details" -match "^$"
+False
+(base) PS C:\Users\theeba\PSScripts\day3> "list of sales emp details" -match "s$"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> cat emp.csv | select-string "sales"
+
+101,ram,sales,pune,1000
+104,paul,sales,bglore,3200
+423,zio,sales,pune,3420
+949,karthik,sales,bglore,3100
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> select-string "sales" emp.csv
+
+emp.csv:2:101,ram,sales,pune,1000
+emp.csv:5:104,paul,sales,bglore,3200
+emp.csv:6:423,zio,sales,pune,3420
+emp.csv:8:949,karthik,sales,bglore,3100
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> select-string "^sales" emp.csv
+(base) PS C:\Users\theeba\PSScripts\day3> select-string "^sales$" emp.csv
+(base) PS C:\Users\theeba\PSScripts\day3> select-string "sales$" emp.csv
+(base) PS C:\Users\theeba\PSScripts\day3> select-string "[0-9]$" emp.csv
+
+emp.csv:2:101,ram,sales,pune,1000
+emp.csv:3:102,leo,prod,bglore,2000
+emp.csv:4:103,anu,HR,hyd,3000
+emp.csv:5:104,paul,sales,bglore,3200
+emp.csv:6:423,zio,sales,pune,3420
+emp.csv:7:142,anu,prod,chennai,4300
+emp.csv:8:949,karthik,sales,bglore,3100
+emp.csv:9:848,tom,hr,chennai,3940
+emp.csv:10:931,vijay,prod,chennai,3411
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> $v= "Sample Data - Test Report on 12th Dec 2020"
+(base) PS C:\Users\theeba\PSScripts\day3> $v -match "^[A-Z]"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> $v -match "^[A-Z][a-z]"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> $v -cmatch "^[A-Z][a-z]"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> $v -cmatch "^[A-Z][a-z].*Test"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> $v -cmatch "^[A-Z][a-z].*Test.*[0-9]"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> "A  %868798 " -match "[A-Za-z0-9]"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> "A  %868798 " -match "^[A-Za-z0-9]"
+True
+(base) PS C:\Users\theeba\PSScripts\day3> "A  %868798 " -match "[^A-Za-z0-9]"
+True
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> Get-Date -UFormat %D
+03-05-25
+(base) PS C:\Users\theeba\PSScripts\day3> Get-Date -UFormat %d
+05
+(base) PS C:\Users\theeba\PSScripts\day3> #  Pattern1| Pattern2|Pattern3  - logical or  -or
+
+===============================================================
+Get-Service| where-Object { $_.status -eq "Running" } > r1.log
+
+	|
+
+foreach ($v in Get-Service){
+	if ($v -match "Running"){
+		echo $v
+	}
+}
+
+
+----------------------------------------
+
+foreach ($v in Get-Service){
+	if ($v -match "Running.*Win"){
+		echo $v
+	}
+}
+
+----------------------------------------
+(base) PS C:\Users\theeba\PSScripts\day3> foreach ($v in (Get-Content .\r1.log)){
+>> if ($v -match "Running.*Win.*[re]$"){
+>> echo $v
+>> }
+>> }
+
+--------------------------------------------
+
+echo "Powershell contains for loop and while loop for execution"| select-string "while|for|do|until"
+
+
+foreach($v in Get-content .\f.log){
+	if( $v -match "Python|perl|Oracle|Audio")
+	{
+		echo $v
+	}
+}
+
+
+
+<Pattern>+  --> 1 or more 
+
+[0-9]+    -> single digit or more digit
+
+ab+c ----> 1 or more
+            abc    abbc      abbbbbbbbbbbbbbbbbbbbbbbbbbbbc  // matched
+
+^\s+   ==> line that starts with 1 or more space
+
+A232323e   ===> ^[A-Z][0-9]+[a-z]$   
+
+
+
+<UPPERCASE> <DIGIT><DIGIT><DIGIT>[lowercase] --->expected format
+
+{n}--> n time
+
+ab{2}c ===> abbc --> 
+
+ ^[A-Z][0-9][0-9][0-9][a-z]$
+ ^[A-Z][0-9]{3}[a-z]$
+ ^[A-Z]\d{3}[a-z]$
+
+{n,m}   n - min   m-max
+
+{n,}   --> ab{1,}c  same   ab+c
+
+========================================================================================
+Task
+-----
+
+1. How to find list of all .ps1 under D:\ ?
+
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> Get-ChildItem -path "C:\Users\theeba\PSScripts\*.ps1" -recurse
+
+(base) PS C:\Users\theeba\PSScripts\day3> Get-ChildItem  "C:\Users\theeba\PSScripts\day2"  "*.log"|Foreach-Object{$_.BaseName}
+data
+rr
+rt
+(base) PS C:\Users\theeba\PSScripts\day3> Get-ChildItem  "C:\Users\theeba\PSScripts\day2"  "*.log"
+
+
+    Directory: C:\Users\theeba\PSScripts\day2
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        04-03-2025     15:03             15 data.log
+-a----        04-03-2025     12:40             57 rr.log
+-a----        04-03-2025     11:34             32 rt.log
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> Get-ChildItem  "C:\Users\theeba\PSScripts\day2"  "*.log"| %{$_.BaseName}
+data
+rr
+rt
+(base) PS C:\Users\theeba\PSScripts\day3> Get-ChildItem  "C:\Users\theeba\PSScripts\day2"  "*.log"| %{$_.FullName}
+C:\Users\theeba\PSScripts\day2\data.log
+C:\Users\theeba\PSScripts\day2\rr.log
+C:\Users\theeba\PSScripts\day2\rt.log
+(base) PS C:\Users\theeba\PSScripts\day3>
+
+
+2. How to filter 1st and 3rd column of emp.csv   (like awk in Linux) 
+
+emp.csv
+-------
+eid,ename,edept,eplace,ecost   
+101,ram,sales,pune,1000
+102,leo,prod,bglore,2000
+103,anu,HR,hyd,3000
+104,paul,sales,bglore,3200
+423,zio,sales,pune,3420
+142,anu,prod,chennai,4300
+949,karthik,sales,bglore,3100
+848,tom,hr,chennai,3940
+931,vijay,prod,chennai,3411
+
+$_ ---> "eid,ename,edept,eplace,ecost"
+$_.split(",")---> (eid,ename,edept,eplace,ecost)
+                     0  1     2     3     4
+$_.split(",")[0]
+
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> cat emp.csv| %{$a=$_.split(",");Write-host $a[0]}
+eid
+101
+102
+103
+104
+423
+142
+949
+848
+931
+(base) PS C:\Users\theeba\PSScripts\day3> cat emp.csv| %{$a=$_.split(",");Write-host $a[0] $a[1]}
+eid ename
+101 ram
+102 leo
+103 anu
+104 paul
+423 zio
+142 anu
+949 karthik
+848 tom
+931 vijay
+(base) PS C:\Users\theeba\PSScripts\day3> cat emp.csv| %{$a=$_.split(",");Write-host $a[0] $a[3]}
+eid eplace
+101 pune
+102 bglore
+103 hyd
+104 bglore
+423 pune
+142 chennai
+949 bglore
+848 chennai
+931 chennai
+(base) PS C:\Users\theeba\PSScripts\day3> cat emp.csv| %{$a=$_.split(",");Write-host $a[0] $a[2]}
+eid edept
+101 sales
+102 prod
+103 HR
+104 sales
+423 sales
+142 prod
+949 sales
+848 hr
+931 prod
+(base) PS C:\Users\theeba\PSScripts\day3> cat emp.csv| %{$a=$_.split(",");Write-host $a[0]`t $a[-1]}
+eid      ecost
+101      1000
+102      2000
+103      3000
+104      3200
+423      3420
+142      4300
+949      3100
+848      3940
+931      3411
+(base) PS C:\Users\theeba\PSScripts\day3> cat emp.csv| %{if($_.split(",")[0]  -match "^[1-4]"){$_;}}
+101,ram,sales,pune,1000
+102,leo,prod,bglore,2000
+103,anu,HR,hyd,3000
+104,paul,sales,bglore,3200
+423,zio,sales,pune,3420
+142,anu,prod,chennai,4300
+(base) PS C:\Users\theeba\PSScripts\day3> select-string "^[1-3]" .\emp.csv
+
+emp.csv:2:101,ram,sales,pune,1000
+emp.csv:3:102,leo,prod,bglore,2000
+emp.csv:4:103,anu,HR,hyd,3000
+emp.csv:5:104,paul,sales,bglore,3200
+emp.csv:7:142,anu,prod,chennai,4300
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> "Sample data on 12th sep 2020".split(" ")
+Sample
+data
+on
+12th
+sep
+2020
+(base) PS C:\Users\theeba\PSScripts\day3> "Sample data on 12th sep 2020".split("[0-9]")
+Sample data on 12th sep 2
+2
+
+(base) PS C:\Users\theeba\PSScripts\day3> ("Sample data on 12th sep 2020"   - split "[0-9]")
+At line:1 char:36
++ ("Sample data on 12th sep 2020"   - split "[0-9]")
++                                    ~
+You must provide a value expression following the '-' operator.
+At line:1 char:37
++ ("Sample data on 12th sep 2020"   - split "[0-9]")
++                                     ~~~~~
+Unexpected token 'split' in expression or statement.
+At line:1 char:36
++ ("Sample data on 12th sep 2020"   - split "[0-9]")
++                                    ~
+Missing closing ')' in expression.
+At line:1 char:50
++ ("Sample data on 12th sep 2020"   - split "[0-9]")
++                                                  ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ExpectedValueExpression
+
+(base) PS C:\Users\theeba\PSScripts\day3> ("Sample data on 12th sep 2020"   -split "[0-9]")
+Sample data on
+
+th sep
+
+
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> ("Sample data on 12th sep 2020"   -split "[0-9]+")
+Sample data on
+th sep
+
+(base) PS C:\Users\theeba\PSScripts\day3> ("Sam5ple data on 12th sep 2020"   -split "[0-9]+")
+Sam
+ple data on
+th sep
+
+(base) PS C:\Users\theeba\PSScripts\day3> ("Sam5ple d3ata on 12th se3p 2020 repo33 rt"   -split "[0-9]+")
+Sam
+ple d
+ata on
+th se
+p
+ repo
+ rt
+(base) PS C:\Users\theeba\PSScripts\day3> ("Sam5ple d3ata on 12th se3p 2020 repo33 rt"   -split "[0-9]+").count
+7
+(base) PS C:\Users\theeba\PSScripts\day3> "root:x,bin-bash~text"  -split "[^\w\s]"
+root
+x
+bin
+bash
+text
+(base) PS C:\Users\theeba\PSScripts\day3> "root:x:bin:/root:bin:/usr/bin:text:bin:sh"   -split "bin"
+root:x:
+:/root:
+:/usr/
+:text:
+:sh
+(base) PS C:\Users\theeba\PSScripts\day3> "root:x:bin:/root:bin:/usr/bin:text:bin:sh"   -split "bin|root"
+
+:x:
+:/
+:
+:/usr/
+:text:
+:sh
+
+
+
+3.
+File: net_conf.txt
+------------------
+host01:10.20.30.40
+host02:10.2.3.4
+host03:10.20.30.2
+host04:10.20.30.0
+host05:10.20.30.4
+
+step 1: create a empty hash_variable
+
+step 2: using file handling read file content (line by line)
+
+step 3: Split each line into multiple values ( "key","value")
+		
+	$s="host01:10,20,30,40"
+        $k,$v=$s.split(":")
+
+step 4: Add data (key,value) to existing dic
+step 5: using keys, display key,value
+step 6: update host03(key)--> ipaddress(127.0.0.1) value
+step 7: display updated hash
+step 8: write updated hash to new file
+
+
+4. Read a student name
+
+format -> Title case
+ex:- Arun Gayathri Yahoo Paul  - okay
+     ARUN  Arun.V  Arun<space>PAUL<Vijay>  V.Arun  - Invalid
+
+Read a student ID
+
+format -> start with single Uppercase character A to E followed by 3 digits 
+
+display student name and ID
+
+=====================================================================================
+
+(base) PS C:\Users\theeba\PSScripts\day3> "java program " -replace "program","script"
+java script
+(base) PS C:\Users\theeba\PSScripts\day3> $var="sasi,prod,bglore,21212"
+(base) PS C:\Users\theeba\PSScripts\day3> $var -replace "prod", "sales"
+sasi,sales,bglore,21212
+(base) PS C:\Users\theeba\PSScripts\day3> $var
+sasi,prod,bglore,21212
+(base) PS C:\Users\theeba\PSScripts\day3> $var=$var -replace "prod", "sales"
+(base) PS C:\Users\theeba\PSScripts\day3> $var
+sasi,sales,bglore,21212
+(base) PS C:\Users\theeba\PSScripts\day3> $var=$var -replace "sales","***"
+(base) PS C:\Users\theeba\PSScripts\day3> $var
+sasi,***,bglore,21212
+(base) PS C:\Users\theeba\PSScripts\day3> $var="  sasi,prod,bglore,6735"
+(base) PS C:\Users\theeba\PSScripts\day3> $var -replace "\s+", ""
+sasi,prod,bglore,6735
+(base) PS C:\Users\theeba\PSScripts\day3> (Get-Date)
+
+05 March 2025 15:51:03
+
+
+(base) PS C:\Users\theeba\PSScripts\day3> (Get-Date) -replace "\s+",":"
+05-03-2025:15:51:55
+(base) PS C:\Users\theeba\PSScripts\day3> (Get-Date) -replace "\s+","`n"
+05-03-2025
+15:52:07
+(base) PS C:\Users\theeba\PSScripts\day3> $fname="/etc/passwd"
+(base) PS C:\Users\theeba\PSScripts\day3> $fname -replace "^","Get-ChildItem "
+Get-ChildItem /etc/passwd
+(base) PS C:\Users\theeba\PSScripts\day3> $w=$fname -replace "^","Get-ChildItem "
+(base) PS C:\Users\theeba\PSScripts\day3> $w
+Get-ChildItem /etc/passwd
+(base) PS C:\Users\theeba\PSScripts\day3> $cost=1234
+(base) PS C:\Users\theeba\PSScripts\day3> $cost -replace "$","Rs"
+1234Rs
+(base) PS C:\Users\theeba\PSScripts\day3> $cost -replace "$",".00Rs"
+1234.00Rs
+(base) PS C:\Users\theeba\PSScripts\day3> $cost -replace "$","$"
+
+=====================================================================================
+Task
+======
+read a csv file
+Find sales department and replace to production 
+-match    ====>  -replace
+
+
+
+================================================================================
+(base) PS C:\Users\theeba\PSScripts\day3> foreach($var in (Get-Process)){
+>> if( $var -match "t.$"){
+>> echo $var
+>> }
+>> }
+
+(base) PS C:\Users\theeba\PSScripts\day3> foreach($var in (Get-Process)){
+>> if( $var -match "t.$"){
+>> $var -replace "svchost","SERVICE"
+>> }
+>> }
+
+(base) PS C:\Users\theeba\PSScripts\day3> "programming java" -replace "java|perl|ruby","script"
+programming script
+(base) PS C:\Users\theeba\PSScripts\day3> $dir=@("p1.log","p2.java","p3.txt","p2.sh","p4.ps1","p5.log")
+(base) PS C:\Users\theeba\PSScripts\day3>
+(base) PS C:\Users\theeba\PSScripts\day3> foreach($var in $dir){
+>> $var -replace ".log",".txt"
+>> }
+p1.txt
+p2.java
+p3.txt
+p2.sh
+p4.ps1
+p5.txt
+=========================================================================================
+
+Commandline arguments
+---------------------
+
+p1.ps1
+-------
+Param(
+[string] $name
+[int] $Age
+)
+...
+
+powershell .\p1.ps1 -name "Ram" -Age 12
+
+
+powershell .\p1.ps1 -Age 12 -name Ram
+
+
+
+p1.ps1    positional parameter
+-------
+Param(
+[Parameter(Position=0)
+[string] $name
+)
+...
+
+powershell .\p1.ps1 "Ram"
+
+
+p1.ps1    mandatory parameter
+-------
+Param(
+[Parameter(Mandatory=$true)]
+[string] $name
+)
+...
+
+powershell .\p1.ps1 "Ram"
+
+
+
+p1.ps1    ValidateRange
+-------
+Param(
+[ValidateRange(1,20)
+[int]$Age
+)
+...
+
+powershell .\p1.ps1 12
+
+
+===================================================================================
+
+
+Function
+---------
+
+|---------subscript
+
+|--------- code reusability
+|---- Avoids code duplication
+
+|------ function definition
+|------- function call
+
+Syntax:-
+#function definition
+
+function functionName{
+	defin block
+}
+
+
+#function call
+
+functionName  # simple function call
+	
+
+Function call with arg
+-----------------------
+
+Syntax:-
+	
+function functionName(arg1,arg2,arg3...argN){
+	definition block
+}
+# functionName arg1 arg2 ... argN 
+
+
+==========================================================================
+
+& Invoke operator   (or)  call operator
+
+& filename
+
+&{
+...
+}
+$cmd1="Get-Process"
+$cmd2="Get-Service"
+
+& $cmd1;&$cmd2    # left to right
+
+
+if ($true){
+	& $cmd1
+}else{
+	& $cmd2
+}
+
+------------------------------------
+
+Module
+======
+
+file1.psm1            file2.ps1
+=========             ========
+|                       import-module  file1
+
+--------------->              
+
+function get-nametest{
+}
+
+function get-idtest{
+}
+
+function set-idtest{
+}
+
+export-modulemember -function "get-*"
+
+
+
+==================================================================================
+
+cmdlet--> verb-noun
+            -------
+              |----object
+.net class
+     -----
+       |-----instance
+
+
+class classname{
+	
+		properties
+		method
+}
+
+
+
+class Myclass{
+
+		[string]$name
+		
+		display(){
+			Write-host "...."
+		}
+		
+		#constructor
+		Myclass([string]name){
+		$this.name=$name
+		}
+
+  #static member
+}
+
+
+[Myclass]::new("Sam") --> Instance
+
+
+
+[Myclass]::static_member_property
+
+[MyClass]::static_member()
+
+=========================================================================================
+
+
+
+
+
